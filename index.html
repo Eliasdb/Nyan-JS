@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nyan</title>
+  <style>
+
+    #nyanbutton {
+      position: absolute;
+      display: inline-block;
+      top: 50%;
+      left: 50%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <button id="nyanbutton">Meow</button>
+
+
+  <script>
+  var whatever =  document.getElementById('nyanbutton');
+
+    whatever.addEventListener('click', function() {
+      var nyan = document.createElement("img");
+      nyan.src = 'nyan.png';
+      nyan.style.position = 'fixed';
+      nyan.style.left = Math.floor(Math.random() * (0 + 50)) - 50 + '%';
+      nyan.style.top = '-25%';
+      nyan.style.transition = Math.floor(Math.random() * (7 - 3)) + 3 + 's';
+
+      document.body.style.backgroundImage = "url('nyanbackground.png')";
+
+      //var img = "";
+      document.body.appendChild(nyan);
+      setTimeout(function() {
+        nyan.classList.add('nyan-cat-end');
+        nyan.style.left = '150%';
+        nyan.style.top = '100%';
+
+
+        setTimeout(function() {
+          document.body.style.backgroundImage = 'none';
+        }, 1000);
+      }, 20);
+    });
+  </script>
+
+</body>
+
+</html>
