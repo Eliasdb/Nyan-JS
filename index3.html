@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nyan</title>
+  <style>
+    #nyanbutton {
+      position: absolute;
+      display: inline-block;
+      top: 50%;
+      left: 50%;
+    }
+
+    body {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .cat {
+      position: absolute;
+      top: -300px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <button id="nyanbutton">Meow</button>
+
+
+  <script>
+    /*
+Objects to manipulate and accompanying event listeners
+*/
+    const body = document.getElementsByTagName('body')[0];
+    const doge = document.getElementById('doge');
+    const nyanbutton = document.getElementById('nyanbutton');
+    const backgroundImage = 'url(nyanbackground.png)';
+    const audio = new Audio('nyancat.mp3');
+
+    // Accompanying event listeners
+    nyanbutton.addEventListener('click', rainNyanCats);
+
+    function rainNyanCats() {
+      body.style.backgroundImage = backgroundImage;
+      audio.volume = 1;
+      audio.play();
+      var rain = setInterval(function() {
+        let cat = createCat();
+        animateCat(cat);
+      }, 20);
+      setTimeout(function() {
+        clearInterval(rain);
+        zapCats();
+        fadeAudio();
+        body.style.backgroundImage = "none";
+      }, 10000);
+    }
+
+    function createCat() {
+      let cat = document.createElement('img');
+      cat.src = 'nyan2.png';
+      cat.className = 'cat';
+      /*
+      Randomize position along the top of the viewport, and also generate negative
+      positions otherwise the bottom left never gets rain.
+      Also move the image above the top as we want to hide it initially.
+      */
+      let left = Math.floor(parseInt(body.clientWidth) * Math.random());
+      left *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+      cat.style.left = left + 'px';
+      body.appendChild(cat);
+      return cat;
+    }
+
+    function animateCat(cat) {
+      let xTarget = Math.floor(parseInt(cat.style.left) + parseInt(body.clientWidth));
+      let speed = (Math.random() * xTarget) % 10 + 2; // calculate random speed
+      cat.style.transition = 'all ' + speed + 's ease-in ' + Math.floor(Math.random() * parseInt(body.clientWidth) / 100) + 's';
+      cat.style.top = '100vh';
+      cat.style.left = xTarget + 'px';
+    }
+
+
+    function zapCats() {
+        Array.from(document.getElementsByClassName('cat')).forEach(function(cat) {
+          cat.remove();
+        });
+      }
+
+      function fadeAudio() {
+        console.log('Inside fadeout: ' + new Date());
+        var fadeAudio = setInterval(function () {
+          if (audio.volume > 0.0) {
+            console.log('Entering interval.');
+            audio.volume -= 0.1;
+            console.log(audio.volume);
+          }
+          // When volume at zero stop all the intervalling
+          if (audio.volume <= 0.2) {
+            audio.volume = 0;
+            audio.pause();
+            clearInterval(fadeAudio);
+            console.log('Faded out: ' + new Date());
+          }
+        }, 100);
+      }
+  </script>
+</body>
+
+</html>

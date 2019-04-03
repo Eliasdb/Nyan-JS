@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Nyan</title>
+  <style>
+    #nyanbutton {
+      position: absolute;
+      display: inline-block;
+      top: 50%;
+      left: 50%;
+    }
+
+    body {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <button id="nyanbutton">Meow</button>
+
+
+  <script>
+    var whatever = document.getElementById('nyanbutton');
+
+    whatever.addEventListener('click', function() {
+      document.body.style.backgroundImage = "url('nyanbackground.png')";
+
+      var Interval = setInterval(function() {
+        var newCat = Cat();
+        animateCat(newCat);
+      }, 20);
+
+      var TimeOut = setTimeout(function() {
+        clearInterval(Interval);
+        document.body.style.backgroundImage = 'none';
+      }, 10000);
+    });
+
+    function Cat() {
+      let nyan = document.createElement("img");
+      nyan.src = 'nyan2.png';
+      nyan.style.position = 'absolute';
+      nyan.style.left = Math.floor(Math.random() * parseInt(document.body.clientWidth)) + 'px';
+      nyan.style.top = '-200px';
+      //nyan.style.transition = "none";
+      document.body.appendChild(nyan);
+      return nyan;
+    }
+
+    function animateCat(x) {
+      //  nyan.style.transition = Math.floor(Math.random() * (7 - 3)) + 3 + 's';
+      x.style.transition = "all 1Os ease-in 10s";
+      x.style.left = '100vw';
+      x.style.top = '100vh';
+    }
+  </script>
+
+</body>
+
+</html>
